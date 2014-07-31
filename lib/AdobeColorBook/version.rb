@@ -1,0 +1,3 @@
+module AdobeColorBook
+  VERSION = "0.0.1"
+end

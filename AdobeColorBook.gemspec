@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = AdobeColorBook::VERSION
   spec.authors       = ["Pat O'Neill"]
   spec.email         = ["Pat.Ryan.Oneill@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Read and Write support for Adobe Color Book Binary format.}
+  spec.description   = %q{This gem allows the user to open and enumerate the colors in an ACB (Adobe Color Book) format file. It also has support for writing custom ACB files for use in Adobe applications.}
   spec.homepage      = ""
   spec.license       = "MIT"
 

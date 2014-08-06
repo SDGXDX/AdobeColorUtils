@@ -132,8 +132,5 @@ module AdobeColorBook
   end
 end # end Module
 
-def testit
-cb = AdobeColorBook::ColorBook.new "/home/gfsx/RubymineProjects/AdobeColorBook/test/PANTONE solid coated.acb"
-end
 
-testit
+

@@ -57,15 +57,27 @@ module AdobeColorBook
 
     def initialize(colorbook_file, colorbook_options = {})
       @colorbook_options = colorbook_options
-      @colorbook_file = File.new colorbook_file if (colorbook_file.nil? || File.file?(colorbook_file))
-      @colorbook_options[:colors] ||= []
-
-        File.open(@colorbook_file, 'rb:UTF-16LE' ) { |cbf| @colorbook_file = cbf
-          read_header
-          read_colors
-        }
-        puts self
+      if File.file? colorbook_file
+        @colorbook_file = colorbook_file
+        @colorbook_file.read
+        @colorbook_options[:colors] ||= []
+      else
+        @colorbook_file = File.new(colorbook_file, "w")
+        @colorbook_options[:colors] ||= []
       end
+
+
+
+
+        puts self
+    end
+
+    def read
+       File.open(@colorbook_file, 'rb:UTF-16LE' ) { |cbf| @colorbook_file = cbf
+       read_header
+       read_colors
+       }
+    end
 
     def to_s
       instance_variables.each { |v| puts "#{v}: #{instance_variable_get(v)}"  }

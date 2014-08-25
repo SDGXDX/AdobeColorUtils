@@ -1,6 +1,8 @@
 require "AdobeColorBook/version"
+require 'logger'
 
-
+@logger = Logger.new(STDOUT)
+@logger.level = Logger::DEBUG
 
 module AdobeColorBook
   SIGNATURE = '8BCB'
@@ -47,6 +49,7 @@ module AdobeColorBook
   include(AdobeColorBook::Readers)
   # Name of color is found by combining prefix, name and suffix: (PANTONE)( 763)(U)
   attr_accessor :colorbook_file, :colorbook_options # store the file object to read and write
+  meta_blacklist = ['version','identifier']
 
     AdobeColorBook.constants.select { |cn| cn.to_s.include? 'IDENTIFIER' }.each do |c|
       c = c.to_s.split('_')[1]
@@ -55,15 +58,18 @@ module AdobeColorBook
       end
     end
 
+    def setup_colorbook(colorbook_file, mode)
+      @colorbook_file = File.new colorbook_file, mode
+      @colorbook_options[:colors] ||= []
+      @colorbook_file.read if mode == 'r'
+    end
+  
     def initialize(colorbook_file, colorbook_options = {})
       @colorbook_options = colorbook_options
       if File.file? colorbook_file
-        @colorbook_file = colorbook_file
-        @colorbook_file.read
-        @colorbook_options[:colors] ||= []
+        setup_colorbook( colorbook_file, 'r' )
       else
-        @colorbook_file = File.new(colorbook_file, "w")
-        @colorbook_options[:colors] ||= []
+        setup_colorbook( colorbook_file, 'w' )
       end
 
 
@@ -72,11 +78,28 @@ module AdobeColorBook
         puts self
     end
 
+    def wrap_option(option_hash ,mthd)
+      self.class.send(:define_method, mthd) do
+        option_hash[mthd]
+      end
+      self.class.send(:define_method, "#{mthd}=") do |input|
+        option_hash[mthd] = input
+      end
+    end
+
+
     def read
        File.open(@colorbook_file, 'rb:UTF-16LE' ) { |cbf| @colorbook_file = cbf
        read_header
        read_colors
        }
+
+      # generating attributes for syntactic sugar colorbook.colorbook_options[:attr] -> colorbook.attr getter/setter
+      # unless attr is in the blacklist
+       @colorbook_options.each do |k,v|
+          wrap_option(@colorbook_options, k) unless meta_blacklist.include? k
+       end
+
     end
 
     def to_s
@@ -103,23 +126,19 @@ module AdobeColorBook
       @colorbook_options[:page_selector_offset] = read_int
       @colorbook_options[:color_space_value] = read_int
       @colorbook_options[:color_space_name] = find_color_space_string
-      puts @colorbook_options
+      logger.debug(@colorbook_options)
     end
 
     def get_colors
       color_hash = {}
-      @colorbook_options[:color_space_name].chars.map { |c| color_hash["#{c}".to_sym]  }
+      @colorbook_options[:color_space_rname].chars.map { |c| color_hash["#{c}".to_sym]  }
     end
 
     def find_color_space_string
      AdobeColorBook.constants.select { |c| AdobeColorBook.const_get(c) == @colorbook_options[:color_space_value] }.shift.to_s.split('_')[1]
     end
 
-
-
     def read_colors
-
-
       1.upto @colorbook_options[:color_count] do
         color = {
             name: read_string,
@@ -128,6 +147,9 @@ module AdobeColorBook
         }
         puts @colorbook_options[:color_space_name]
         bytes_len = AdobeColorBook.const_get("BYTES_#{@colorbook_options[:color_space_name]}")
+
+        puts "Length: #{bytes_len}"
+
         3.times do
           color[:color_values] << @colorbook_file.read(1).unpack('C')
         end
@@ -135,7 +157,7 @@ module AdobeColorBook
 
 
 
-        puts color
+        @logger.debug(color)
 
 
         @colorbook_options[:colors] << color
@@ -145,4 +167,4 @@ module AdobeColorBook
 end # end Module
 
 
-
+AdobeColorBook::ColorBook.new "../test/spec/testfiles/HKS E.acb"

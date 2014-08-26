@@ -6,9 +6,9 @@
   <component name="FacetManager">
     <facet type="gem" name="Ruby Gem">
       <configuration>
-        <option name="GEM_APP_ROOT_PATH" value="$MODULE_DIR$" />
-        <option name="GEM_APP_TEST_PATH" value="$MODULE_DIR$/test" />
-        <option name="GEM_APP_LIB_PATH" value="$MODULE_DIR$/lib" />
+        <option name="GEM_APP_ROOT_PATH" value="$MODULE_DIR$/../AdobeColorBook" />
+        <option name="GEM_APP_TEST_PATH" value="$MODULE_DIR$/../AdobeColorBook/test" />
+        <option name="GEM_APP_LIB_PATH" value="$MODULE_DIR$/../AdobeColorBook/lib" />
       </configuration>
     </facet>
   </component>
@@ -151,11 +151,13 @@
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
+      <RunnerSettings RunnerId="RubyDebugRunner" />
       <RunnerSettings RunnerId="RubyRunner" />
+      <ConfigurationWrapper RunnerId="RubyDebugRunner" />
       <ConfigurationWrapper RunnerId="RubyRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="AdobeColorBook" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
+    <configuration default="false" name="AdobeColorUtils" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
       <module name="AdobeColorBook" />
       <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
       <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$/lib" />
@@ -171,7 +173,7 @@
         </COVERAGE_PATTERN>
       </EXTENSION>
       <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/lib/AdobeColorBook.rb" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/lib/AdobeColorUtils.rb" />
       <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
       <RunnerSettings RunnerId="RubyDebugRunner" />
       <RunnerSettings RunnerId="RubyRunner" />

@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'AdobeColorBook/version'
+require 'AdobeColorUtils/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "AdobeColorBook"
-  spec.version       = AdobeColorBook::VERSION
+  spec.name          = "AdobeColorUtils"
+  spec.version       = AdobeColorUtils::VERSION
   spec.authors       = ["Pat O'Neill"]
   spec.email         = ["Pat.Ryan.Oneill@gmail.com"]
   spec.summary       = %q{Read and Write support for Adobe Color Book Binary format.}
